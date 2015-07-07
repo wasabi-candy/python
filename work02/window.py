@@ -12,7 +12,7 @@ class LoopThread(threading.Thread):
         self.fnc = fnc
     def run(self):
         while True:
-            time.sleep(0.01)
+            time.sleep(0.001)
             self.fnc();
     def __del__(self):
         print("loopend");
@@ -36,8 +36,15 @@ class Frame(tk.Frame):
     def moveRect(self,e):
         self.canvas.coords("vip",e.x-15,e.y-15,e.x+15,e.y+15)
     def autoMove(self):
-        self.rectx += 1;
-        self.recty += 1;
+        if self.rectx < 665 and self.recty <= 5:
+            self.rectx += 1
+        elif self.rectx >=665 and self.recty < 465:
+            self.recty += 1
+        elif self.rectx > 5 and self.recty >= 465:
+            self.rectx -=1
+        elif self.rectx >= 5 and self.recty >= 5:
+            self.recty-=1;
+        #self.recty += 1;
         self.canvas.coords("vip",self.rectx,self.recty,self.rectx+30,self.recty+30)
     def __del__(self):
         print("end");
