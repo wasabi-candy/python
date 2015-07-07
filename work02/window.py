@@ -36,7 +36,8 @@ class Frame(tk.Frame):
 
         self.canvas.coords("vip",self.rectx,self.recty,self.rectx+30,self.recty+30)
     def __del__(self):
-        self.timer = "";
+        self.timer.stop_event.set()
+        self.thread.join()
 
 f = Frame()
 f.mainloop()
