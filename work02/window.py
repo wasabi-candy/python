@@ -2,7 +2,16 @@
 # -*- coding: utf-8 -*-
 
 import tkinter as tk
-import time
+import threading
+
+def set_interval(func, sec):
+    def func_wrapper():
+        set_interval(func, sec)
+        func()
+    t = threading.Timer(sec, func_wrapper)
+    t.start()
+    return t
+
 
 class Frame(tk.Frame):
     def __init__(self, master=None):
@@ -18,11 +27,16 @@ class Frame(tk.Frame):
         canvas.pack()
         canvas.tag_bind(rect,"<Button1-Motion>",self.moveRect)
         self.canvas = canvas
+        self.timer = set_interval(self.autoMove,0.001);
     def moveRect(self,e):
         self.canvas.coords("vip",e.x-15,e.y-15,e.x+15,e.y+15)
-        
+    def autoMove(self):
+        self.rectx += 0.1;
+        self.recty += 0.1;
+
+        self.canvas.coords("vip",self.rectx,self.recty,self.rectx+30,self.recty+30)
     def __del__(self):
-        pass
+        self.timer = "";
 
 f = Frame()
 f.mainloop()
