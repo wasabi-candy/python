@@ -3,15 +3,19 @@
 
 import tkinter as tk
 import threading
+import time
 
-def set_interval(func, sec):
-    def func_wrapper():
-        set_interval(func, sec)
-        func()
-    t = threading.Timer(sec, func_wrapper)
-    t.start()
-    return t
-
+class LoopThread(threading.Thread):
+    def __init__(self,fnc):
+        super(LoopThread,self).__init__()
+        self.daemon = True
+        self.fnc = fnc
+    def run(self):
+        while True:
+            time.sleep(0.01)
+            self.fnc();
+    def __del__(self):
+        print("loopend");
 
 class Frame(tk.Frame):
     def __init__(self, master=None):
@@ -27,15 +31,17 @@ class Frame(tk.Frame):
         canvas.pack()
         canvas.tag_bind(rect,"<Button1-Motion>",self.moveRect)
         self.canvas = canvas
-        self.timer = set_interval(self.autoMove,1);
+        self.th = LoopThread(self.autoMove)
+        self.th.start();
     def moveRect(self,e):
         self.canvas.coords("vip",e.x-15,e.y-15,e.x+15,e.y+15)
     def autoMove(self):
-        self.rectx += 0.1;
-        self.recty += 0.1;
+        self.rectx += 1;
+        self.recty += 1;
         self.canvas.coords("vip",self.rectx,self.recty,self.rectx+30,self.recty+30)
     def __del__(self):
-        print("ssssssssssssssssssssssssssssssssssssssssissssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss");
+        print("end");
+
 
 
 f = Frame()
