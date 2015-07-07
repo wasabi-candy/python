@@ -27,17 +27,16 @@ class Frame(tk.Frame):
         canvas.pack()
         canvas.tag_bind(rect,"<Button1-Motion>",self.moveRect)
         self.canvas = canvas
-        self.timer = set_interval(self.autoMove,0.001);
+        self.timer = set_interval(self.autoMove,1);
     def moveRect(self,e):
         self.canvas.coords("vip",e.x-15,e.y-15,e.x+15,e.y+15)
     def autoMove(self):
         self.rectx += 0.1;
         self.recty += 0.1;
-
         self.canvas.coords("vip",self.rectx,self.recty,self.rectx+30,self.recty+30)
     def __del__(self):
-        self.timer.stop_event.set()
-        self.thread.join()
+        print("ssssssssssssssssssssssssssssssssssssssssissssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss");
+
 
 f = Frame()
 f.mainloop()
