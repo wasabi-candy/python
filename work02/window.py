@@ -42,9 +42,8 @@ class Frame(tk.Frame):
             self.recty += 1
         elif self.rectx > 5 and self.recty >= 465:
             self.rectx -=1
-        elif self.rectx >= 5 and self.recty >= 5:
+        elif self.rectx > 5 and self.recty > 5:
             self.recty-=1;
-        #self.recty += 1;
         self.canvas.coords("vip",self.rectx,self.recty,self.rectx+30,self.recty+30)
     def __del__(self):
         print("end");
